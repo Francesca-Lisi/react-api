@@ -29,32 +29,111 @@ const App = () => {
 
   const handlerRemovePost = (id) => {
     console.log(id);
+    axios.delete(`${baseApiUrl}/posts/${id}`)
+      .then(res => {
+        //elimino il post dall'aary locale
+        //setPosts((prevPosts) => prevPosts.filter(post => post.id !== id))
+        //oppure effetto una nuova uchiamata all'API allineato con il server
+        fetchPost()
+      })
+      .catch(error => {
+        console.error('Errore: ', error)
+      })
   }
 
 
 
   return (
-    <div div className="card my-3 p-4" >
-      <h3>Elenco Articoli</h3>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Immagine</th>
-            <th scope="col">Titolo</th>
-            <th scope="col">Contenuto</th>
-            <th scope="col">Tags</th>
-            <th scope="col">Azioni</th>
-          </tr>
-        </thead>
-        <tbody>
-          {posts.map(post => (
-            <PostList key={post.id} post={post} onDelete={() => handlerRemovePost(post.id)} />
-          ))}
+    <>
+      <h1 className='text-center my-5'>Blog di cucina</h1>
+      <div className="card p-4 m-3">
+        <h3 className='mb-4'>Inserisci un nuovo articolo</h3>
+        <form onSubmit={ }>
+          <div className="row mb-3">
+            <label htmlFor="title" className="col-sm-2 col-form-label fw-semibold">Titolo</label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                name='title'
+                className="form-control"
+                id="title"
+                value={ }
+                onChange={ }
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label htmlFor="url" className="col-sm-2 col-form-label fw-semibold">URL immagine</label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                name='urlImage'
+                id="url"
+                value={ }
+                onChange={ }
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label htmlFor="content" className="col-sm-2 col-form-label fw-semibold">Contenuto</label>
+            <div className="col-sm-10">
+              <textarea
+                type="text"
+                name='content'
+                className="form-control"
+                id="content"
+                value={ }
+                onChange={ }
+              ></textarea>
+            </div>
+          </div>
 
-        </tbody>
-      </table>
-    </div >
+          <div className="row mb-3">
+            <label htmlFor="tags" className="col-sm-2 col-form-label fw-semibold">Tags</label>
+            <div className="col-sm-10">
+              <textarea
+                type="text"
+                name='tags'
+                className="form-control"
+                id="tags"
+                value={ }
+                onChange={ }
+              ></textarea>
+            </div>
+          </div>
 
+          <div className="d-flex justify-content-center">
+            <button type="submit" onSubmit={ } className="btn btn-outline-primary px-4">Invio</button>
+          </div>
+        </form>
+      </div>
+
+
+
+
+
+      <div div className="card m-3 p-4" >
+        <h2 className='mb-4'>Elenco Articoli</h2>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Immagine</th>
+              <th scope="col">Titolo</th>
+              <th scope="col">Contenuto</th>
+              <th scope="col">Tags</th>
+              <th scope="col">Azioni</th>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map(post => (
+              <PostList key={post.id} post={post} onDelete={() => handlerRemovePost(post.id)} />
+            ))}
+
+          </tbody>
+        </table>
+      </div >
+    </>
   )
 }
 
